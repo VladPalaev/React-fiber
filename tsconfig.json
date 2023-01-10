@@ -1,0 +1,38 @@
+{
+  "include": [
+    "./src" // неявно собираем только ts, tsx файлы, можем включить allowJs чтобы зарезолвить js
+  ],
+  "exclude": [
+    "./src/**/*.spec.ts",
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist", // выходная папка, она автоматом включается в exclude
+    "target": "ESNext", // в какую версию скомпилируется js
+    "module": "ES6", // какую модульную систему будет использовать tsc
+    "moduleResolution": "Node", // подстраховка поля module, явно указываем что нам не нужна legasy сборка classic
+    "esModuleInterop": true, // есть пакеты написанные на commonjs, благодаря эту бойлерплейту вокруг commonjs, мы можем использовать синтаксис es6
+    "alwaysStrict": true, // добавляет в каждый файл use strict
+    "forceConsistentCasingInFileNames": true, // компилятор становиться регистрочувствительным к импортам, нельзя будет писать как захочеться
+    // "declaration": true, // обычно нужно когда кто-то будет пользоваться твоим пакетом, автоматом подтянуться тайпинги
+    // "declarationDir": "./dist/types", // группируем все типы в отдельной папки
+    "resolveJsonModule": true, // можем импортировать json файлы import json from './example.json'
+    "allowJs": true, // lкомпилятор будет собираться ts и js, очень удобно когда мы портируем проект
+    // "experimentalDecorators": true, // включает поддержку декораторов
+    // "emitDecoratorMetadata": true, // в рантайме предоставляет декораторам дополнительные мета-данные необходимо подтянуть в проект библиотеку reflect-metadata.
+    // "jsx": "react" // поддержка jsx синтаксиса
+    // "removeComments": true /* Убрать комментарии из итоговых файлов. */,
+    // "allowSyntheticDefaultImports": true /* Разрешить импорт по умолчанию из модулей без экспорта по умолчанию.
+    "noImplicitAny": true, // запрещаем неявно any
+    "strictNullChecks": true, // ts использует наследование типов, null и undefined стоят выше по иеархии string, boolean etc, поэтому мы можем где объявлен тип number положить null
+    "strictPropertyInitialization": true, // обязательно нужно инициализировать свойства класса
+    "strictFunctionTypes": true, // проверяет сигнатуру функции, когда мы хотим присвоить функции, какой-нибудь переменной
+    "noImplicitThis": true, // ts чекает если потерян контекст для this
+    "strictBindCallApply": true, // строго проверяем сигнатуру функции, которую привязываем и передаем аргументы
+    "noPropertyAccessFromIndexSignature": true, // если у объекта указана сигнатура свойста [key: string]: string , то к такому свойству мы можем обратиться через brackets
+    "skipLibCheck": true, // отключаем проверку d.ts файлов, немного ускоряет сборку, но возможно впускаем конфликты типов
+    // "sourceMap": true
+  },
+}
+// tsc --showConfig посмотри что собирается на выходе в files
+// todo подумать насчет dist сборки нужны ли source map и declarationMap

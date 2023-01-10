@@ -1,0 +1,43 @@
+name: release new version on npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: patch | minor | major
+
+jobs:
+  publish:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup nodejs version ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: install dependencies package
+        run: npm ci
+
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          npm version ${{ github.event.inputs.version }}
+          git push origin main
+          git push origin --tags
+
+      - name: build dist folder
+        run: npm run build
+
+      - name: publish packages to npm
+        run: npm publish
+
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_PUBLISH }}
