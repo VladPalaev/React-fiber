@@ -66,17 +66,13 @@ function commitWork(fiber) {
 
 	const parentNode = parentFiber.node;
 
-	switch (fiber.action) {
-		case 'ADD':
-			parentNode.appendChild(fiber.node);
-			break;
-		case 'REMOVE':
-			return commitRemove(fiber);
-		case 'UPDATE':
-			fiber.node && updateNode(fiber.node, fiber.alternate.props, fiber.props);
-		default:
-			return;
-	}
+	if (fiber.action === 'ADD' && fiber.node != null) {
+        parentNode.appendChild(fiber.node);
+    } else if (fiber.action === 'UPDATE' && fiber.node != null) {
+        updateNode(fiber.node, fiber.alternate.props, fiber.props);
+    } else if (fiber.action === 'REMOVE') {
+        commitRemove(fiber)  //todo подумать чтобы ниже было return
+    }
 
 	commitWork(fiber.child);
 	commitWork(fiber.sibling);
