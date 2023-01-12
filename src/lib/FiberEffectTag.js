@@ -41,7 +41,7 @@ export function updateNode(fiberNode, prevProps, nextProps) {
 // все компоненты должны возращать один обернутый тег или fragment
 export function updateFunctionComponent(fiber) {
 	React.workingFiber = fiber; // сохраняем ссылку на наш fiber из компонента
-	React.indexHook = 0;
+	React.hookIndex = 0;
 	React.workingFiber.hooks = [];
 
 	// так как компонент это просто функция, ниже мы ее вызываем, но мы хотим

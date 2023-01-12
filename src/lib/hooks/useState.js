@@ -2,7 +2,7 @@
 export function useState(initialState) {
 	const oldHook = React.workingFiber.alternate &&
 					React.workingFiber.alternate.hooks &&
-					React.workingFiber.alternate.hooks[React.indexHook];
+					React.workingFiber.alternate.hooks[React.hookIndex];
 	// хук по сути это какой-то изначальный стейт и очередь из каких-то действий
 	// по отношению к нему
 	const hook = {
@@ -32,11 +32,11 @@ export function useState(initialState) {
 		// Обнуляем некоторые browserGlobalVar для запуска ререндера и
 		// и узлов для удаления.
 		React.nextUnitOfWork = React.workingRoot;
-		React.nodeToRemove = [];
+		React.nodesToRemove = [];
 	}
 
 	React.workingFiber.hooks.push(hook);
-	React.indexHook += 1;
+	React.hookIndex += 1;
 
 	return [hook.state, setState]
 }
