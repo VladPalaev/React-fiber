@@ -1,6 +1,6 @@
 {
   "name": "mine-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Educational implementation framework React built on functional components and hooks",
   "main": "dist/index.js",
   "type": "module",
