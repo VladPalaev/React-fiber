@@ -1,4 +1,3 @@
-import { createNode } from "../utils/createNode.js";
 import { isEventProps, isProperty, wasAddedProps, wasRemoveProps } from "../utils/simpleHelpers.js";
 import { reconcileChildren } from "./ReactFiberReconciler.js";
 
