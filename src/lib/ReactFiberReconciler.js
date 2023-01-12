@@ -5,7 +5,9 @@ export function reconcileChildren(workingFiber, elements) {
 	let prevSibling = null;
 	let oldFiber = workingFiber.alternate && workingFiber.alternate.child;
 
-	while( index < elements.length || oldFiber !== null) {
+	// обязательно нестрогое равенство, так как ниже в коде if(oldFiber)
+	// может стать undefined, так как мы обходим связанный список oldFiber
+	while( index < elements.length || oldFiber != null) {
 		const element = elements[index];
 		let newFiber = null;
 		// подумать о лучшем название sameType
