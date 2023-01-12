@@ -24,7 +24,7 @@ export function updateNode(fiberNode, prevProps, nextProps) {
 		.forEach((key) => {
 			const eventType = key.toLocaleLowerCase().slice(2);
 
-			fiberNode.removeEventListener(eventType, prevProps[eventType]);
+			fiberNode.removeEventListener(eventType, prevProps[key]);
 		});
 
 	Object.keys(nextProps)
@@ -33,7 +33,7 @@ export function updateNode(fiberNode, prevProps, nextProps) {
 		.forEach((key) => {
 			const eventType = key.toLocaleLowerCase().slice(2);
 
-			fiberNode.addEventListener(eventType, nextProps[eventType])
+			fiberNode.addEventListener(eventType, nextProps[key])
 		});
 }
 
@@ -61,4 +61,16 @@ export function updateHostComponent(fiber) {
 	}
 
 	reconcileChildren(fiber, fiber.props.children)
+}
+// создаем из fiber узла DOM узел и присваиваем все атрибуты и обработчики
+function createNode(fiber) {
+	const node = fiber.type === 'TEXT_ELEMENT'
+				? document.createTextNode('')
+				: document.createElement(fiber.type);
+
+	const {children, ...props} = fiber.props;
+
+	updateNode(node, {}, props);
+
+	return node;
 }
